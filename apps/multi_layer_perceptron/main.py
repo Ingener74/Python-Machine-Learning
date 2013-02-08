@@ -6,12 +6,17 @@ class Layer:
 	def __init__(self, inputs, neurons):
 		self._neurons = neurons
 		self._inputs = inputs + 1
-		self._weights = np.random.rand(self._neurons*self._inputs).reshape(self._neurons, self._inputs)
+		self._weights = np.random.rand(self._neurons, self._inputs)
+		print "w = \n", self._weights.type
 	def printl(self):
 		print 'neurons = ', self._neurons, ', inputs = ', self._inputs
 		print 'weights:\n', self._weights
 	def predict(self, input):
-		return self._weights * input
+		print "predict input = \n", input		
+		input_t = input
+		input_t
+		print "predict input_t = \n", input_t 
+		#return np.dot(self._weights, input)
 		pass
 
 def main():
