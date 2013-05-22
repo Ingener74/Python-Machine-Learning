@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 
-import numpy as np
+import sys
+try:
+	import numpy as np
+except ImportError:
+	print 'check installed modules'
+	print 'program require: numpy'
+	sys.exit(1)
 
 class Layer:
 	def __init__(self, inputs, neurons):
@@ -11,10 +17,16 @@ class Layer:
 	def printl(self):
 		print 'neurons = ', self._neurons, ', inputs = ', self._inputs
 		print 'weights:\n', self._weights
+	def add_bias(self, input):
+		x = np.shape(input)
+		
+		print 'input_sh = ', (x[0] + 1, x[1]) 
+		print np.array((x[0] + 1, x[1]))
+		pass
 	def predict(self, input):
 		print "predict input = \n", input
 		input_t = input
-		input_t
+		self.add_bias(input)
 		print "predict input_t = \n", input_t
 		#return np.dot(self._weights, input)
 		pass
