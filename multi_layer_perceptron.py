@@ -13,33 +13,39 @@ class Layer:
 		self._neurons = neurons
 		self._inputs = inputs + 1
 		self._weights = np.random.rand(self._neurons, self._inputs)
-		print "w = \n", self._weights.shape
 	def printl(self):
 		print 'neurons = ', self._neurons, ', inputs = ', self._inputs
 		print 'weights:\n', self._weights
 	def add_bias(self, input):
-		x = np.shape(input)
-		
-		print 'input_sh = ', (x[0] + 1, x[1]) 
-		print np.array((x[0] + 1, x[1]))
-		pass
+		x = np.resize(input, (input.shape[0] + 1, input.shape[1]))
+		x[input.shape[0], input.shape[1] - 1] = 1.0
+		return x
 	def predict(self, input):
-		print "predict input = \n", input
-		input_t = input
-		self.add_bias(input)
-		print "predict input_t = \n", input_t
-		#return np.dot(self._weights, input)
-		pass
+		return np.dot(self._weights, self.add_bias(input))
+
+class NeuroNet:
+	def __init__(self, configuration):
+		self.conf = configuration
+		self.layers = []
+		for n in range(0, len(self.conf) - 1):
+			self.layers.append(Layer(self.conf[n], self.conf[n + 1]))
+	def printnn(self):
+		print 'NeuroNet configuration = ', self.conf
+		for x in self.layers:
+			x.printl()
+	def predict(self, input):
+		for x in self.layers:
+			if x == self.layers[0]:
+				y = x.predict(input)
+			else:
+				y = x.predict(y)
+		return y
 
 def main():
 	print 'Multi layer perceptron'
-	l1 = Layer(2, 2)
-	l2 = Layer(2, 1)
-	l1.printl()
-	l2.printl()
-
-	print 'output l1 = ', l1.predict(np.array([[1],[0]], 'double'))
-	pass
+	nn = NeuroNet((2, 2, 1))
+	#nn.printnn()
+	print 'nn predict = ', nn.predict( np.array([[0.], [0.]]) )
 
 if __name__ == '__main__':
 	main()
