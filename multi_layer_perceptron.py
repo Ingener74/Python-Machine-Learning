@@ -3,9 +3,12 @@
 import sys
 try:
 	import numpy as np
+	import cPickle as pk
+	from optparse import OptionParser
+	import sys
 except ImportError:
-	print 'check installed modules'
-	print 'program require: numpy'
+	print 'i need numpy, cPickle'
+	print 'install it'
 	sys.exit(1)
 
 class Layer:
@@ -20,8 +23,10 @@ class Layer:
 		x = np.resize(input, (input.shape[0] + 1, input.shape[1]))
 		x[input.shape[0], input.shape[1] - 1] = 1.0
 		return x
+	def transfer_function(self, input):
+		return 1.0 / ( 1 + np.exp(-1.0 * input) )
 	def predict(self, input):
-		return np.dot(self._weights, self.add_bias(input))
+		return self.transfer_function( np.dot(self._weights, self.add_bias(input)) )
 
 class NeuroNet:
 	def __init__(self, configuration):
@@ -41,11 +46,39 @@ class NeuroNet:
 				y = x.predict(y)
 		return y
 
+class NeuroNetIO:
+	def __init__(self, filename):
+		self.fn = filename
+	def save(self, nn):
+		self.file = open(self.fn, 'w')
+		pk.dump(nn, self.file)
+		self.file.close()
+	def load(self):
+		self.file = open(self.fn, 'r')
+		x = pk.load(self.file)
+		self.file.close()
+		return x
+		
+
 def main():
 	print 'Multi layer perceptron'
-	nn = NeuroNet((2, 2, 1))
-	#nn.printnn()
-	print 'nn predict = ', nn.predict( np.array([[0.], [0.]]) )
+	parser = OptionParser(usage="Usage: ./mlp <options>")
+	parser.add_option("-m", "--mode", type="int", default="0", help="working mode", dest="mode")
+	(options, args) = parser.parse_args()
+
+	nnio = NeuroNetIO('nn.dat')
+
+	if options.mode == 0:
+		print 'load and use NeuroNet'
+
+	elif options.mode == 1:
+		print 'create and save NeuroNet'
+		nn = NeuroNet((2, 2, 1))
+		nnio.save(nn)
+
+	else:
+		parser.print_help()
+		sys.exit()
 
 if __name__ == '__main__':
 	main()
