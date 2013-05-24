@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 
-import sys
 try:
 	import numpy as np
 	import cPickle as pk
 	from optparse import OptionParser
-	import sys
+	import sys, os
 except ImportError:
-	print 'i need numpy, cPickle'
+	print 'i need numpy, cPickle, optparse, sys modules'
 	print 'install it'
 	sys.exit(1)
 
-class Layer:
+class Layer(object):
 	def __init__(self, inputs, neurons):
 		self._neurons = neurons
 		self._inputs = inputs + 1
@@ -28,7 +27,7 @@ class Layer:
 	def predict(self, input):
 		return self.transfer_function( np.dot(self._weights, self.add_bias(input)) )
 
-class NeuroNet:
+class NeuroNet(object):
 	def __init__(self, configuration):
 		self.conf = configuration
 		self.layers = []
@@ -46,7 +45,7 @@ class NeuroNet:
 				y = x.predict(y)
 		return y
 
-class NeuroNetIO:
+class NeuroNetIO(object):
 	def __init__(self, filename):
 		self.fn = filename
 	def save(self, nn):
@@ -58,10 +57,39 @@ class NeuroNetIO:
 		x = pk.load(self.file)
 		self.file.close()
 		return x
+
+class BackPropTrainer(object):
+	def __init__(self):
+		print 'BackProp trainer'
 		
+def mode_0():
+	print 'load and use NeuroNet'
+
+def mode_1():
+	print 'create, train and save NeuroNet'
+	nn = NeuroNet((3, 5, 5, 3))
+	print 'NeuroNet before training'
+	nn.printnn()
+
+	sys.stdout.write('train NeuroNet... ')
+	print('done')
+	
+	sys.stdout.write('save NeuroNet...')
+	nnio = NeuroNetIO('nn.dat')
+	nnio.save(nn)
+	print('done')
+
+def mode_2():
+	print 'for future'
+
+def mode_3():
+	print 'for future'
 
 def main():
-	print 'Multi layer perceptron'
+	os.system('clear')
+	print '================================================================================'
+	print '==========================   Multi layer perceptron   =========================='
+	print '================================================================================'
 	parser = OptionParser(usage="Usage: ./mlp <options>")
 	parser.add_option("-m", "--mode", type="int", default="0", help="working mode", dest="mode")
 	(options, args) = parser.parse_args()
@@ -69,16 +97,17 @@ def main():
 	nnio = NeuroNetIO('nn.dat')
 
 	if options.mode == 0:
-		print 'load and use NeuroNet'
-
+		mode_0()
 	elif options.mode == 1:
-		print 'create and save NeuroNet'
-		nn = NeuroNet((2, 2, 1))
-		nnio.save(nn)
-
+		mode_1()
+	elif options.mode == 2:
+		mode_2()
+	elif options.mode == 3:
+		mode_3()
 	else:
 		parser.print_help()
 		sys.exit()
 
 if __name__ == '__main__':
 	main()
+	print 'end of program'
