@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file>genetics-icon.png</file>
+    <file>chalkboard.png</file>
+    <file>neuron3.png</file>
+  </qresource>
+</RCC>
