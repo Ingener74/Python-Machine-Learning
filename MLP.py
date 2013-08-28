@@ -77,21 +77,44 @@ class BackPropTrainer(object):
 	def __init__(self):
 		print 'BackProp trainer'
 
-	def train(self, nn, termCrit):
+	def train(self, nn, termCrit, train_inputs, train_desired_outputs):
+		print 'BackProp Trainer.train'
+		print 'train inputs = \n', train_inputs
+		print 'train desired outputs = \n', train_desired_outputs
+		print 'train inputs shape = \n', train_inputs.shape
+		if(train_inputs.shape[1] != train_desired_outputs.shape[1]):
+			print 'error 1'
+			return -1
+		for i in range(0, train_inputs.shape[1]):
+			print 'i = ', i
 		pass
 		
 def mode_0():
+	test = (1, 'test', np.array([0, 1]))
+	print 'test = ', test
+	print 'test shape = ', len(test)
+	for i in range(0, len(test)):
+		print test[i]
 	print 'load and use NeuroNet'
 
 def mode_1():
 	print 'create, train and save NeuroNet'
-	nn = NeuroNet((3, 5, 5, 3))
+	nn = NeuroNet((2, 5, 5, 1))
 	print 'NeuroNet before training'
 	nn.printnn()
-
+	
+	train_inputs = np.array([
+		[0, 1, 0, 1],
+		[0, 0, 1, 1],
+		])
+	train_desired_outputs = np.array([
+		[0, 1, 1, 0],
+		])
+	#print 'train inputs = \n', train_inputs
+	#print 'train desired outputs = \n', train_desired_outputs
 	sys.stdout.write('train NeuroNet... ')
 	bpt = BackPropTrainer()
-	bpt.train(nn, TermCriteria(TermCriteria.CRIT_ERROR, 1000, 0.001))
+	bpt.train(nn, TermCriteria(TermCriteria.CRIT_ERROR, 1000, 0.001), train_inputs, train_desired_outputs)
 	print 'done'
 	
 	sys.stdout.write('save NeuroNet...')
