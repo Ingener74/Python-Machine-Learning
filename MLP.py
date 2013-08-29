@@ -74,8 +74,10 @@ class TermCriteria(object):
 			print 'unknown criteria'
 
 class BackPropTrainer(object):
-	def __init__(self):
+	def __init__(self, learning_rate):
+		self._learning_rate = learning_rate
 		print 'BackProp trainer'
+		print 'Leaning rate = ', self._learning_rate
 
 	def train(self, nn, termCrit, train_inputs, train_desired_outputs):
 		print 'BackProp Trainer.train'
@@ -84,17 +86,22 @@ class BackPropTrainer(object):
 		print 'train inputs shape = \n', train_inputs.shape
 		if(train_inputs.shape[1] != train_desired_outputs.shape[1]):
 			print 'error 1'
-			return -1
+			return
+		mse = 0.0
 		for i in range(0, train_inputs.shape[1]):
+			#
+			# W[i + 1] = W[i] + learning_rate * error *  * input
+			#
+			#
+			#
+			#
+			dW     = []
+			inputs = []
+			errors = []
 			print 'i = ', i
 		pass
 		
 def mode_0():
-	test = (1, 'test', np.array([0, 1]))
-	print 'test = ', test
-	print 'test shape = ', len(test)
-	for i in range(0, len(test)):
-		print test[i]
 	print 'load and use NeuroNet'
 
 def mode_1():
@@ -113,7 +120,7 @@ def mode_1():
 	#print 'train inputs = \n', train_inputs
 	#print 'train desired outputs = \n', train_desired_outputs
 	sys.stdout.write('train NeuroNet... ')
-	bpt = BackPropTrainer()
+	bpt = BackPropTrainer(0.2)
 	bpt.train(nn, TermCriteria(TermCriteria.CRIT_ERROR, 1000, 0.001), train_inputs, train_desired_outputs)
 	print 'done'
 	
@@ -123,6 +130,11 @@ def mode_1():
 	print 'done'
 
 def mode_2():
+	test = (1, 'test', np.array([0, 1]))
+	print 'test = ', test
+	print 'test shape = ', len(test)
+	for i in range(0, len(test)):
+		print test[i]
 	print 'for future'
 
 def mode_3():
