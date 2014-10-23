@@ -23,7 +23,7 @@ class Layer(object):
 		x[input.shape[0], input.shape[1] - 1] = 1.0
 		return x
 	def transfer_function(self, input):
-		return 1.0 / ( 1 + np.exp(-1.0 * input) )
+		return 1.0 / ( 1.0 + np.exp(-1.0 * input) )
 	def predict(self, input):
 		return self.transfer_function( np.dot(self._weights, self.add_bias(input)) )
 
@@ -85,7 +85,7 @@ class BackPropTrainer(object):
 		print 'train desired outputs = \n', train_desired_outputs
 		print 'train inputs shape = \n', train_inputs.shape
 		if(train_inputs.shape[1] != train_desired_outputs.shape[1]):
-			print 'error 1'
+			print 'error train sequence not match'
 			return
 		mse = 0.0
 		for i in range(0, train_inputs.shape[1]):
@@ -166,3 +166,9 @@ def main():
 if __name__ == '__main__':
 	main()
 	print 'end of program'
+
+
+
+
+
+
