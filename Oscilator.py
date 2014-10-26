@@ -128,11 +128,11 @@ class Node:
 
 nodesGrid = [
         '211111111111111111112',
-        '100000000000000000001',
-        '100000000000000000001',
-        '100000000000000000001',
-        '100000000000000000001',
-        '100000000000000000001',
+        '100001000001000000001',
+        '100001000001000000001',
+        '100001111111000000001',
+        '100000010100000000001',
+        '100000011100000000001',
         '100000000000000000001',
         '100000000000000000001',
         '111111111121111111111',
@@ -140,8 +140,6 @@ nodesGrid = [
 
 
 def main():
-    print 'Oscillator symulation'
-    
     WIDTH                = 640
     HEIGHT               = 480
     NODE_COLOR           = (0, 0, 0)
@@ -188,16 +186,16 @@ def main():
     while True:
         for e in pygame.event.get():
             if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
-                raise SystemExit("Exit")
+                raise SystemExit
             
         for node in nodes:
             node.update(1.0 / 30.0)
         
         surface.fill(BG_COLOR)
         for node in nodes:
-            pygame.draw.circle(surface, FIX_NODE_COLOR if node._fixed else NODE_COLOR , node._pos.toTuple(), 2)
             for intNode in node._nodes:
                 pygame.draw.line(surface, (0, 255, 255), node._pos.toTuple(), intNode._pos.toTuple())
+            pygame.draw.circle(surface, FIX_NODE_COLOR if node._fixed else NODE_COLOR , node._pos.toTuple(), 2)
             
         window.blit(surface, (0, 0))
         pygame.display.update()

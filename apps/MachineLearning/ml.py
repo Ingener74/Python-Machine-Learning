@@ -10,9 +10,6 @@ except():
     print 'sudo apt-get install python-pyside'
     sys.exit(1)
 
-#from PySide import QtCore, QtGui
-#from ui_mainform import Ui_MainWindow
-
 class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
