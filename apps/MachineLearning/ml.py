@@ -17,7 +17,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
-        QObject.connect(self.ui.pushButton, QtCore.SIGNAL('clicked()'), self, QtCore.SLOT('button1()'))
+        QObject.connect(self.ui.pushButton, QtCore.SIGNAL('clicked()'), self.button1)
         
     def button1(self):
         print "button 1"
