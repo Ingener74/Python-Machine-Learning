@@ -98,6 +98,9 @@ class BackPropTrainer(object):
 			dW     = []
 			inputs = []
 			errors = []
+
+			
+
 			print 'i = ', i
 		pass
 		
