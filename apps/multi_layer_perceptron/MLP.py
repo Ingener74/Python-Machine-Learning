@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-from PySide.QtGui import QApplication
 
+import sys, os
 try:
 	import numpy as np
 	import cPickle as pk
 	from optparse import OptionParser
-	import sys, os
+	from PySide.QtGui import QApplication, QWidget
+	
 except ImportError as e:
 	raise SystemExit(str(e))
 
