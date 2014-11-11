@@ -7,8 +7,15 @@ try:
 	from optparse import OptionParser
 	from PySide.QtGui import QApplication, QWidget
 	
+	from main import Ui_MainWidget
+	
 except ImportError as e:
 	raise SystemExit(str(e))
+
+class MainWidget(QWidget, Ui_MainWidget):
+	def __init__(self, parent=None):
+		super(MainWidget, self).__init__(parent)
+		self.setupUi(self)
 
 class Layer(object):
 	def __init__(self, inputs, neurons):
@@ -143,10 +150,6 @@ def mode_2():
 def mode_3():
 	print 'for future'
 
-class MainWindow(QWidget):
-	def __init__(self, parent=None):
-		super(MainWindow, self).__init__(parent)
-
 def main():
 # 	os.system('clear')
 # 	print '================================================================================'
@@ -172,7 +175,7 @@ def main():
 
 	app = QApplication(sys.argv)
 	
-	mainWindow = MainWindow()
+	mainWindow = MainWidget()
 	mainWindow.show()
 
 	return sys.exit(app.exec_())
