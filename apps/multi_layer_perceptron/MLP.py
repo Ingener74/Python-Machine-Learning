@@ -1,14 +1,13 @@
 #!/usr/bin/env python
+from PySide.QtGui import QApplication
 
 try:
 	import numpy as np
 	import cPickle as pk
 	from optparse import OptionParser
 	import sys, os
-except ImportError:
-	print 'i need numpy, cPickle, optparse, sys modules'
-	print 'install it'
-	sys.exit(1)
+except ImportError as e:
+	raise SystemExit(str(e))
 
 class Layer(object):
 	def __init__(self, inputs, neurons):
@@ -143,32 +142,45 @@ def mode_2():
 def mode_3():
 	print 'for future'
 
+class MainWindow(QWidget):
+	def __init__(self, parent=None):
+		super(MainWindow, self).__init__(parent)
+
 def main():
-	os.system('clear')
-	print '================================================================================'
-	print '==========================   Multi layer perceptron   =========================='
-	print '================================================================================'
-	parser = OptionParser(usage="Usage: ./mlp <options>")
-	parser.add_option("-m", "--mode", type="int", default="0", help="working mode", dest="mode")
-	(options, args) = parser.parse_args()
+# 	os.system('clear')
+# 	print '================================================================================'
+# 	print '==========================   Multi layer perceptron   =========================='
+# 	print '================================================================================'
+# 	parser = OptionParser(usage="Usage: ./mlp <options>")
+# 	parser.add_option("-m", "--mode", type="int", default="0", help="working mode", dest="mode")
+# 	(options, args) = parser.parse_args()
+# 
+# 	nnio = NeuroNetIO('nn.dat')
+# 
+# 	if options.mode == 0:
+# 		mode_0()
+# 	elif options.mode == 1:
+# 		mode_1()
+# 	elif options.mode == 2:
+# 		mode_2()
+# 	elif options.mode == 3:
+# 		mode_3()
+# 	else:
+# 		parser.print_help()
+# 		sys.exit()
 
-	nnio = NeuroNetIO('nn.dat')
+	app = QApplication(sys.argv)
+	
+	mainWindow = MainWindow()
+	mainWindow.show()
 
-	if options.mode == 0:
-		mode_0()
-	elif options.mode == 1:
-		mode_1()
-	elif options.mode == 2:
-		mode_2()
-	elif options.mode == 3:
-		mode_3()
-	else:
-		parser.print_help()
-		sys.exit()
+	return sys.exit(app.exec_())
 
 if __name__ == '__main__':
-	main()
-	print 'end of program'
+	try:
+		main()
+	except Exception as e:
+		print str(e)
 
 
 
